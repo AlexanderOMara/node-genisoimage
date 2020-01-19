@@ -1,8 +1,12 @@
 #!/bin/bash
 
+echo 'step -1'
+
 set -o errexit
 set -o nounset
 set -o pipefail
+
+echo 'step 0'
 
 __self="${BASH_SOURCE[0]}"
 __dir="$(cd "$(dirname "${__self}")" > /dev/null && pwd)"
