@@ -8,6 +8,8 @@ __self="${BASH_SOURCE[0]}"
 __dir="$(cd "$(dirname "${__self}")" > /dev/null && pwd)"
 __file="${__dir}/$(basename "${__self}")"
 
+docker --version
+
 echo 'step 1'
 
 lib='lib'
