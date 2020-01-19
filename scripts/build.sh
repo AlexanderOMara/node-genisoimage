@@ -9,8 +9,11 @@ set -o pipefail
 echo 'step 0'
 
 __self="${BASH_SOURCE[0]}"
+echo 'step 0.1'
 __dir="$(cd "$(dirname "${__self}")" > /dev/null && pwd)"
+echo 'step 0.2'
 __file="${__dir}/$(basename "${__self}")"
+echo 'step 0.3'
 
 docker --version
 
