@@ -35,7 +35,7 @@ rm -rf "${lib}"
 
 echo 'step 4'
 
-docker build -t "${docker_tag}" "${docker_dir}"
+docker build --quiet -t "${docker_tag}" "${docker_dir}"
 
 echo 'step 5'
 
