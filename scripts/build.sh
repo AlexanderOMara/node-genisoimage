@@ -15,7 +15,7 @@ echo 'step 0.2'
 __file="${__dir}/$(basename "${__self}")"
 echo 'step 0.3'
 
-docker --version
+docker version
 
 echo 'step 1'
 
