@@ -22,6 +22,7 @@ yarn.lock
 /.gitignore
 /.editorconfig
 /.travis.yml
+/lib.tar.gz
 /emscripten
 /genisoimage
 /index.ts

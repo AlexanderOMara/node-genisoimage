@@ -22,4 +22,5 @@ yarn.lock
 /genisoimage/cdrkit.original
 /genisoimage/cdrkit
 /lib
+/lib.tar.gz
 /spec/disk.iso
