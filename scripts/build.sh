@@ -26,7 +26,7 @@ rm -rf "${lib}"
 
 echo 'step 4'
 
-docker build --platform=linux -t "${docker_tag}" "${docker_dir}"
+docker build -t "${docker_tag}" "${docker_dir}"
 
 echo 'step 5'
 
@@ -34,7 +34,7 @@ mkdir -p "${lib}"
 
 echo 'step 6'
 
-docker run --platform=linux \
+docker run \
 	--rm \
 	-v "$(pwd):/src" \
 	-u "$(id -u):$(id -g)" \
