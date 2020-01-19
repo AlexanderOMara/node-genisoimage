@@ -1,8 +1,18 @@
 language: node_js
 
-node_js:
-- 'v8.0.0'
-- 'v13.6.0'
+stages:
+- test
+- deploy
+
+matrix:
+  include:
+  - stage: test
+    os: linux
+    node_js: 'v8.0.0'
+
+  - stage: test
+    os: linux
+    node_js: 'v13.6.0'
 
 script:
 - ./emscripten/sources.sh
