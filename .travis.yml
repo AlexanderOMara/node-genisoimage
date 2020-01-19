@@ -1,33 +1,17 @@
 language: node_js
 
 stages:
+- build
 - test
 - deploy
 
 matrix:
   include:
-  - stage: test
-    os: linux
-    node_js: 'v8.0.0'
-
-  - stage: test
-    os: windows
-    node_js: 'v8.0.0'
-    services:
-    - docker
-
-  - stage: test
+  - stage: build
     os: linux
     node_js: 'v13.6.0'
-
-  - stage: test
-    os: windows
-    node_js: 'v13.6.0'
-    services:
-    - docker
-
-script:
-- ./emscripten/sources.sh
-- ./genisoimage/sources.sh
-- ./scripts/build.sh
-- ./scripts/test.sh
+    script:
+    - ./emscripten/sources.sh
+    - ./genisoimage/sources.sh
+    - ./scripts/build.sh
+    - ./scripts/build-cache.sh
