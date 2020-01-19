@@ -32,6 +32,8 @@ rm -rf "${dir_path}"
 wget -O "${file_path}" \
 	"https://github.com/${repo}/releases/download/${release}/${build_file}"
 
-shasum -a 256 "${file_path}"
+if hash shasum 2>/dev/null; then
+	shasum -a 256 "${file_path}"
+fi
 tar xvz -f "${file_path}"
 rm -rf "${file_path}"

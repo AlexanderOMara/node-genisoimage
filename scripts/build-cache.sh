@@ -28,7 +28,9 @@ cd "${__dir}/.."
 
 echo "build_id: ${build_id}"
 tar -cz -f "${file_path}" "${dir_path}"
-shasum -a 256 "${file_path}"
+if hash shasum 2>/dev/null; then
+	shasum -a 256 "${file_path}"
+fi
 
 echo "Uploading..."
 
