@@ -1,23 +1,12 @@
 #!/bin/bash
 
-echo 'step -1'
-
 set -o errexit
 set -o nounset
 set -o pipefail
 
-echo 'step 0'
-
 __self="${BASH_SOURCE[0]}"
-echo 'step 0.1'
 __dir="$(cd "$(dirname "${__self}")" > /dev/null && pwd)"
-echo 'step 0.2'
 __file="${__dir}/$(basename "${__self}")"
-echo 'step 0.3'
-
-docker version
-
-echo 'step 1'
 
 lib='lib'
 src='genisoimage/cdrkit'
@@ -25,24 +14,13 @@ inc='genisoimage/inc'
 docker_dir='emscripten'
 docker_tag='node-genisoimage-emscripten'
 
-echo 'step 2'
-
 cd "${__dir}/.."
-
-echo 'step 3'
 
 rm -rf "${lib}"
 
-echo 'step 4'
-
-docker build --quiet -t "${docker_tag}" "${docker_dir}"
-
-echo 'step 5'
+docker build -t "${docker_tag}" "${docker_dir}"
 
 mkdir -p "${lib}"
-
-echo 'step 6'
-
 docker run \
 	--rm \
 	-v "$(pwd):/src" \
