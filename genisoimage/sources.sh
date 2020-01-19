@@ -20,6 +20,6 @@ patch_file_abs="${patch_dir_abs}/${patch_file}"
 rm -rf "${cdrkit_dir_abs}"
 mkdir -p "${cdrkit_dir_abs}"
 
-wget -qO- "${source_tar_gz}" | tar xvz - -C "${cdrkit_dir_abs}" --strip 1
+wget -qO- "${source_tar_gz}" | tar xvz -f- -C "${cdrkit_dir_abs}" --strip 1
 
 patch -d "${cdrkit_dir_abs}" -p1 < "${patch_file_abs}"
