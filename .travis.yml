@@ -11,7 +11,23 @@ matrix:
     node_js: 'v8.0.0'
 
   - stage: test
+    os: osx
+    node_js: 'v8.0.0'
+
+  - stage: test
+    os: windows
+    node_js: 'v8.0.0'
+
+  - stage: test
     os: linux
+    node_js: 'v13.6.0'
+
+  - stage: test
+    os: osx
+    node_js: 'v13.6.0'
+
+  - stage: test
+    os: windows
     node_js: 'v13.6.0'
 
 script:
