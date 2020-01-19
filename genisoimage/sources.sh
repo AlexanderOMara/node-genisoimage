@@ -24,4 +24,6 @@ mkdir -p "${cdrkit_dir_abs}"
 git clone --depth 1 --branch "${cdrkit_tag}" \
 	"${cdrkit_repo}" "${cdrkit_dir_abs}"
 
+rm -rf "${cdrkit_dir_abs}.git"
+
 patch -d "${cdrkit_dir_abs}" -p1 < "${patch_file_abs}"
