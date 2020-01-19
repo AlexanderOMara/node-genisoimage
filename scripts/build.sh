@@ -8,19 +8,32 @@ __self="${BASH_SOURCE[0]}"
 __dir="$(cd "$(dirname "${__self}")" > /dev/null && pwd)"
 __file="${__dir}/$(basename "${__self}")"
 
+echo 'step 1'
+
 lib='lib'
 src='genisoimage/cdrkit'
 inc='genisoimage/inc'
 docker_dir='emscripten'
 docker_tag='node-genisoimage-emscripten'
 
+echo 'step 2'
+
 cd "${__dir}/.."
+
+echo 'step 3'
 
 rm -rf "${lib}"
 
+echo 'step 4'
+
 docker build -t "${docker_tag}" "${docker_dir}"
 
+echo 'step 5'
+
 mkdir -p "${lib}"
+
+echo 'step 6'
+
 docker run \
 	--rm \
 	-v "$(pwd):/src" \
