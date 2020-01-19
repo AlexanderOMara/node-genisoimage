@@ -15,3 +15,10 @@ matrix:
     - ./genisoimage/sources.sh
     - ./scripts/build.sh
     - ./scripts/build-cache.sh "${TRAVIS_BUILD_NUMBER}"
+
+  - stage: test
+    os: linux
+    node_js: 'v13.6.0'
+    script:
+    - ./scripts/build-cached.sh "${TRAVIS_BUILD_NUMBER}"
+    - ./scripts/test.sh

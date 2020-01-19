@@ -16,7 +16,7 @@ __file="${__dir}/$(basename "${__self}")"
 dir_path='lib'
 file_path='lib.tar.gz'
 repo='AlexanderOMara/node-genisoimage'
-release='22960555'
+release='build-cache'
 
 commit_id="$(git rev-parse HEAD)"
 build_number="$1"
@@ -27,23 +27,11 @@ build_file="${build_id}-${file_name}"
 cd "${__dir}/.."
 
 echo "build_id: ${build_id}"
-tar -cz -f "${file_path}" "${dir_path}"
+
+rm -rf "${dir_path}"
+wget -O "${file_path}" \
+	"https://github.com/${repo}/releases/download/${release}/${build_file}"
+
 shasum -a 256 "${file_path}"
-
-echo "Uploading..."
-
-output="$(curl -s \
-    -H "Authorization: token ${GITHUB_API_KEY}" \
-    -H "Content-Type: application/octet-stream" \
-    --data-binary "@${file_path}" \
-    "https://uploads.github.com/repos/${repo}/releases/${release}/assets?name=${build_file}"
-)"
-
-rm "${file_path}"
-
-if [[ "$output" == *'"errors":'* ]]; then
-	echo "ERROR:"
-	echo "$output"
-	exit 1
-fi
-echo "Done"
+tar xvz -f "${file_path}"
+rm -rf "${file_path}"
