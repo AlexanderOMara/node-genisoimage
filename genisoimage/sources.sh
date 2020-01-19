@@ -9,7 +9,8 @@ __dir="$(cd "$(dirname "${__self}")" > /dev/null && pwd)"
 __file="${__dir}/$(basename "${__self}")"
 
 cdrkit_dir='cdrkit'
-source_tar_gz='https://github.com/Distrotech/cdrkit/archive/distrotech-cdrkit-1.1.11.tar.gz'
+cdrkit_repo='https://github.com/Distrotech/cdrkit.git'
+cdrkit_tag='distrotech-cdrkit-1.1.11'
 patch_dir='patch'
 patch_file='patch.diff'
 
@@ -20,6 +21,7 @@ patch_file_abs="${patch_dir_abs}/${patch_file}"
 rm -rf "${cdrkit_dir_abs}"
 mkdir -p "${cdrkit_dir_abs}"
 
-wget -qO- "${source_tar_gz}" | tar xvz -f- -C "${cdrkit_dir_abs}" --strip 1
+git clone --depth 1 --branch "${cdrkit_tag}" \
+	"${cdrkit_repo}" "${cdrkit_dir_abs}"
 
 patch -d "${cdrkit_dir_abs}" -p1 < "${patch_file_abs}"
