@@ -14,4 +14,4 @@ matrix:
     - ./emscripten/sources.sh
     - ./genisoimage/sources.sh
     - ./scripts/build.sh
-    - ./scripts/build-cache.sh
+    - ./scripts/build-cache.sh "${TRAVIS_BUILD_NUMBER}"
