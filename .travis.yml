@@ -1,0 +1,11 @@
+language: node_js
+
+node_js:
+- 'v8.0.0'
+- 'v13.6.0'
+
+script:
+- ./emscripten/sources.sh
+- ./genisoimage/sources.sh
+- ./scripts/build.sh
+- ./scripts/test.sh

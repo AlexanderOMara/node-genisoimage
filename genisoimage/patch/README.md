@@ -1,0 +1,1 @@
+Patches for emscripten compatability.

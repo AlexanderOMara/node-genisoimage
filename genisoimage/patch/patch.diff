@@ -1,0 +1,31 @@
+diff -ru cdrkit.original/genisoimage/genisoimage.c cdrkit/genisoimage/genisoimage.c
+--- cdrkit.original/genisoimage/genisoimage.c	2014-01-30 06:02:36.000000000 -0500
++++ cdrkit/genisoimage/genisoimage.c	2020-01-18 23:22:49.400504822 -0500
+@@ -45,6 +45,7 @@
+ 
+ /* APPLE_HYB James Pearson j.pearson@ge.ucl.ac.uk 22/2/2000 */
+ 
++#include "checksum.h"
+ #include <mconfig.h>
+ #include "genisoimage.h"
+ #include <errno.h>
+@@ -2664,7 +2665,7 @@
+ 	if (setreuid(-1, getuid()) < 0)
+ #else
+ #ifdef	HAVE_SETEUID
+-	if (seteuid(getuid()) < 0)
++	if (geteuid() != getuid() && seteuid(getuid()) < 0)
+ #else
+ 	if (setuid(getuid()) < 0)
+ #endif
+diff -ru cdrkit.original/genisoimage/jte.c cdrkit/genisoimage/jte.c
+--- cdrkit.original/genisoimage/jte.c	2014-01-30 06:02:36.000000000 -0500
++++ cdrkit/genisoimage/jte.c	2020-01-18 23:07:19.295133992 -0500
+@@ -9,6 +9,7 @@
+  * GNU GPL v2
+  */
+ 
++#include "md5.h"
+ #include <mconfig.h>
+ #include "genisoimage.h"
+ #include <timedefs.h>

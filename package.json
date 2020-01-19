@@ -1,0 +1,28 @@
+{
+	"private": true,
+	"name": "node-genisoimage",
+	"description": "A port of genisoimage to Node.js using Emscripten and WebAssembly",
+	"version": "0.0.0",
+	"keywords": [
+		"genisoimage",
+		"iso",
+		"disk-image",
+		"cross-platform",
+		"platform-independant",
+		"webassembly",
+		"wasm"
+	],
+	"main": "index",
+	"types": "index.d.ts",
+	"sideEffects": false,
+	"bin": {
+		"node-genisoimage": "./bin/node-genisoimage"
+	},
+	"engines": {
+		"node": ">=8.0.0"
+	},
+	"repository": "https://github.com/AlexanderOMara/node-genisoimage.git",
+	"bugs": "https://github.com/AlexanderOMara/node-genisoimage/issues",
+	"author": "Alexander O'Mara",
+	"license": "GPL-2.0-or-later"
+}
