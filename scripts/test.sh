@@ -15,7 +15,7 @@ errored=0
 # TODO: Not very thorough testing, could use more tests.
 rm -rf 'spec/disk.iso'
 vuid='ab70f5913f4042ad9d30ea16f93f85ef'
-./bin/node-genisoimage -D -V "${vuid}" -no-pad -r -o 'spec/disk.iso' 'spec/disk'
+./bin/node-genisoimage -vv -D -V "${vuid}" -no-pad -r -o 'spec/disk.iso' 'spec/disk'
 output="$(strings 'spec/disk.iso')"
 
 if [[ "${output}" == *"${vuid}"* ]]; then
