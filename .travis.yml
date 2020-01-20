@@ -66,6 +66,7 @@ matrix:
     - ./scripts/test.sh
     deploy:
       provider: npm
+      edge: true
       skip_cleanup: true
       email: $NPM_EMAIL_ADDRESS
       api_key: $NPM_API_KEY
