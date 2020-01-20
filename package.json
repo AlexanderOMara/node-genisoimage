@@ -1,8 +1,7 @@
 {
-	"private": true,
 	"name": "node-genisoimage",
 	"description": "A port of genisoimage to Node.js using Emscripten and WebAssembly",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"keywords": [
 		"genisoimage",
 		"iso",
