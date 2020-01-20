@@ -43,9 +43,9 @@ output="$(curl -s \
 
 rm "${file_path}"
 
-if [[ "$output" == *'"errors":'* ]]; then
+if [[ "${output}" == *'"errors":'* ]]; then
 	echo "ERROR:"
-	echo "$output"
+	echo "${output}"
 	exit 1
 fi
 echo "Done"

@@ -13,3 +13,11 @@ cd "${__dir}/.."
 # TODO: Not very thorough testing, could use more tests.
 rm -rf 'spec/disk.iso'
 ./bin/node-genisoimage -D -V 'volume' -no-pad -r -o 'spec/disk.iso' 'spec/disk'
+output="$(strings 'spec/disk.iso')"
+uid="$(cat spec/disk/dir/sub/uid.txt)"
+if [[ "${output}" == *"${uid}"* ]]; then
+	echo 'PASS: spec/disk.iso'
+else
+	echo 'FAIL: spec/disk.iso'
+	exit 1
+fi
