@@ -1,6 +1,6 @@
 diff -ru original/library_fs.js patched/library_fs.js
---- original/library_fs.js	2020-01-18 20:19:32.641009092 -0500
-+++ patched/library_fs.js	2020-01-18 21:01:13.691010356 -0500
+--- original/library_fs.js	2020-01-19 21:11:09.397647858 -0500
++++ patched/library_fs.js	2020-01-19 21:11:26.359527901 -0500
 @@ -1063,10 +1063,13 @@
        var stream = FS.createStream({
          node: node,
@@ -16,8 +16,8 @@ diff -ru original/library_fs.js patched/library_fs.js
          ungotten: [],
          error: false
 diff -ru original/library_nodefs.js patched/library_nodefs.js
---- original/library_nodefs.js	2020-01-18 20:19:32.661862612 -0500
-+++ patched/library_nodefs.js	2020-01-18 20:31:32.364548922 -0500
+--- original/library_nodefs.js	2020-01-19 21:11:09.664444089 -0500
++++ patched/library_nodefs.js	2020-01-19 21:11:26.360764701 -0500
 @@ -25,6 +25,11 @@
          "{{{ cDefine('O_TRUNC') }}}": flags["O_TRUNC"],
          "{{{ cDefine('O_WRONLY') }}}": flags["O_WRONLY"]
@@ -55,9 +55,9 @@ diff -ru original/library_nodefs.js patched/library_nodefs.js
          return newFlags;
        } else {
 diff -ru original/library_noderawfs.js patched/library_noderawfs.js
---- original/library_noderawfs.js	2020-01-18 20:19:32.663720131 -0500
-+++ patched/library_noderawfs.js	2020-01-18 20:51:55.394153833 -0500
-@@ -12,8 +12,12 @@
+--- original/library_noderawfs.js	2020-01-19 21:11:09.928084016 -0500
++++ patched/library_noderawfs.js	2020-01-19 21:13:07.414257330 -0500
+@@ -12,8 +12,13 @@
      '}' +
      'else { throw new Error("NODERAWFS is currently only supported on Node.js environment.") }',
    $NODERAWFS: {
@@ -67,11 +67,12 @@ diff -ru original/library_noderawfs.js patched/library_noderawfs.js
      lookupPath: function(path) {
 -      return { path: path, node: { mode: NODEFS.getMode(path) } };
 +      var st = fs.lstatSync(path);
-+      return { path: path, id: st.ino, mode: st.mode, node: { mode: st.mode } };
++      var mode = NODEFS.getMode(path);
++      return { path: path, id: st.ino, mode: mode, node: { mode: mode } };
      },
      createStandardStreams: function() {
        FS.streams[0] = { fd: 0, nfd: 0, position: 0, path: '', flags: 0, tty: true, seekable: false };
-@@ -35,7 +39,7 @@
+@@ -35,7 +40,7 @@
      symlink: function() { fs.symlinkSync.apply(void 0, arguments); },
      rename: function() { fs.renameSync.apply(void 0, arguments); },
      rmdir: function() { fs.rmdirSync.apply(void 0, arguments); },
@@ -80,7 +81,7 @@ diff -ru original/library_noderawfs.js patched/library_noderawfs.js
      unlink: function() { fs.unlinkSync.apply(void 0, arguments); },
      readlink: function() { return fs.readlinkSync.apply(void 0, arguments); },
      stat: function() { return fs.statSync.apply(void 0, arguments); },
-@@ -51,9 +55,14 @@
+@@ -51,9 +56,15 @@
        if (typeof flags === "string") {
          flags = VFS.modeStringToFlags(flags)
        }
@@ -91,15 +92,16 @@ diff -ru original/library_noderawfs.js patched/library_noderawfs.js
 +      if (flags & {{{ cDefine('O_DIRECTORY') }}} && !st.isDirectory()) {
 +        throw new FS.ErrnoError(ERRNO_CODES.ENOTDIR);
 +      }
++      var mode = NODEFS.getMode(pathTruncated);
        var fd = suggestFD != null ? suggestFD : FS.nextfd(nfd);
 -      var stream = { fd: fd, nfd: nfd, position: 0, path: path, flags: flags, seekable: true };
-+      var stream = { fd: fd, nfd: nfd, position: 0, path: path, id: st.ino, flags: flags, mode: st.mode, node_ops: NODERAWFS, seekable: true };
++      var stream = { fd: fd, nfd: nfd, position: 0, path: path, id: st.ino, flags: flags, mode: mode, node_ops: NODERAWFS, seekable: true };
        FS.streams[fd] = stream;
        return stream;
      },
 diff -ru original/library_syscall.js patched/library_syscall.js
---- original/library_syscall.js	2020-01-18 20:19:32.688149333 -0500
-+++ patched/library_syscall.js	2020-01-18 21:18:54.771284223 -0500
+--- original/library_syscall.js	2020-01-19 21:11:10.281816602 -0500
++++ patched/library_syscall.js	2020-01-19 21:11:26.364151157 -0500
 @@ -1042,11 +1042,25 @@
        var id;
        var type;
@@ -131,8 +133,8 @@ diff -ru original/library_syscall.js patched/library_syscall.js
          type = FS.isChrdev(child.mode) ? 2 :  // DT_CHR, character device.
                 FS.isDir(child.mode) ? 4 :     // DT_DIR, directory.
 diff -ru original/struct_info.json patched/struct_info.json
---- original/struct_info.json	2020-01-18 20:19:32.774014831 -0500
-+++ patched/struct_info.json	2020-01-18 20:40:27.339064837 -0500
+--- original/struct_info.json	2020-01-19 21:11:10.617673278 -0500
++++ patched/struct_info.json	2020-01-19 21:11:26.365512818 -0500
 @@ -467,6 +467,9 @@
              "F_SETOWN", 
              "O_TRUNC", 
