@@ -57,3 +57,17 @@ matrix:
     script:
     - ./scripts/build-cached.sh "${TRAVIS_BUILD_NUMBER}"
     - ./scripts/test.sh
+
+  - stage: deploy
+    os: linux
+    node_js: 'v13.6.0'
+    script:
+    - ./scripts/build-cached.sh "${TRAVIS_BUILD_NUMBER}"
+    - ./scripts/test.sh
+    deploy:
+      provider: npm
+      skip_cleanup: true
+      email: $NPM_EMAIL_ADDRESS
+      api_key: $NPM_API_KEY
+      on:
+        tags: true
