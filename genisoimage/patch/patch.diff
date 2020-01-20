@@ -1,6 +1,6 @@
 diff -ru cdrkit.original/genisoimage/genisoimage.c cdrkit/genisoimage/genisoimage.c
---- cdrkit.original/genisoimage/genisoimage.c	2014-01-30 06:02:36.000000000 -0500
-+++ cdrkit/genisoimage/genisoimage.c	2020-01-18 23:22:49.400504822 -0500
+--- cdrkit.original/genisoimage/genisoimage.c	2020-01-19 23:33:10.294794644 -0500
++++ cdrkit/genisoimage/genisoimage.c	2020-01-19 23:33:27.672079717 -0500
 @@ -45,6 +45,7 @@
  
  /* APPLE_HYB James Pearson j.pearson@ge.ucl.ac.uk 22/2/2000 */
@@ -19,8 +19,8 @@ diff -ru cdrkit.original/genisoimage/genisoimage.c cdrkit/genisoimage/genisoimag
  	if (setuid(getuid()) < 0)
  #endif
 diff -ru cdrkit.original/genisoimage/jte.c cdrkit/genisoimage/jte.c
---- cdrkit.original/genisoimage/jte.c	2014-01-30 06:02:36.000000000 -0500
-+++ cdrkit/genisoimage/jte.c	2020-01-18 23:07:19.295133992 -0500
+--- cdrkit.original/genisoimage/jte.c	2020-01-19 23:33:10.303259169 -0500
++++ cdrkit/genisoimage/jte.c	2020-01-19 23:33:27.673423633 -0500
 @@ -9,6 +9,7 @@
   * GNU GPL v2
   */
@@ -29,3 +29,47 @@ diff -ru cdrkit.original/genisoimage/jte.c cdrkit/genisoimage/jte.c
  #include <mconfig.h>
  #include "genisoimage.h"
  #include <timedefs.h>
+diff -ru cdrkit.original/genisoimage/tree.c cdrkit/genisoimage/tree.c
+--- cdrkit.original/genisoimage/tree.c	2020-01-19 23:33:10.338058293 -0500
++++ cdrkit/genisoimage/tree.c	2020-01-19 23:57:10.836528478 -0500
+@@ -38,6 +38,7 @@
+ 
+ /* APPLE_HYB James Pearson j.pearson@ge.ucl.ac.uk 23/2/2000 */
+ 
++#include <emscripten.h>
+ #include <mconfig.h>
+ #include "genisoimage.h"
+ #include "match.h"
+@@ -180,6 +181,19 @@
+ 	return ((char *) NULL);
+ }
+ 
++static int
++host_has_executable_bits(void) {
++	static int r = 0;
++	static int once = 0;
++	if (!once) {
++		once = 1;
++		r = EM_ASM_INT({
++			return /^win/.test(process.platform) ? 0 : 1;
++		});
++	}
++	return r;
++}
++
+ static void
+ stat_fix(struct stat *st)
+ {
+@@ -219,9 +233,9 @@
+ 			 */
+ 
+ 			st->st_mode |= 0444;
+-#if !defined(_WIN32) && !defined(__DJGPP__)	/* make all file "executable" */
+-			if (st->st_mode & 0111)
+-#endif
++// #if !defined(_WIN32) && !defined(__DJGPP__)	/* make all file "executable" */
++			if (st->st_mode & 0111 || !host_has_executable_bits())
++// #endif
+ 				st->st_mode |= 0111;
+ 			st->st_mode &= ~07222;
+ 		}
