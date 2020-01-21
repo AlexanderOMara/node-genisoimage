@@ -29,3 +29,5 @@ If you find a bug or have compatibility issues, please open a ticket under issue
 Licensed under GNU General Public License v2.0 or later.
 
 Source files under emscripten and genisoimage retain their original licenses.
+
+The data files `package.json`, `package-lock.json`, `index.ts`, `index.js`, and `index.d.ts` can be considered Public Domain or CC0.
